@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Count
 from .models import Post
 
 
 def index(request):
+    post = Post.objects.annotate(favorite_nums=Count('favorite')).order_by('favorite_nums')[:10]
+    print(post.query)
     return HttpResponse('Главная страница')
 
 
