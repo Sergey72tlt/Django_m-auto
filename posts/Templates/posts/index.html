@@ -13,6 +13,11 @@
             <p>{{ post.date_pub }}</p>
             <img src="{{ post.image.url }}" style="width: 500px; height: 250px;">
             <p>{{ post.description }}</p>
+            <p> favorite: {{ post.favorite_count }}</p>
+            <form method="posts" action="{% url 'posts:post-favorite' post.id %}">
+                {% csrf_token %}
+                <button type="submit">♥</button>
+            </form>
         </li>
         {% endfor %}
     </ul>
