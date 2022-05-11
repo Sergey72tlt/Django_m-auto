@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пост # {{ post.id }}</title>
+</head>
+<body>
+    <a href="{% url 'posts:index' %}">На главную</a>
+    <p>{{ post.author }}</p>
+    <p>{{ post.date_pub }}</p>
+    <img src="{{ post.image.url }}" style="width: 500px; height: 250px;">
+    <p>{{ post.description }}</p>
+    <p>{{ post.favorite_count }}</p>
+</body>
+</html>

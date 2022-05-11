@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Count
 from .models import Post
@@ -6,20 +6,21 @@ from .models import Post
 
 def index(request):
     posts = Post.objects.annotate(favorite_nums=Count('favorite')).order_by('favorite_nums')[:10]
-    responce = [f'id: {post.id}| author: {post.author}' for post in posts]
-    # print(post.query)
-    return HttpResponse('Главная страница')
+    context = {
+        'popular_posts': posts
+    }
+    return render(request, 'posts/index.html', context)
 
 
 def feed(request):
     posts = Post.objects.filter(author__in=request.user.profile.friends.all())
     responce = [f'id: {post.id}| author: {post.author}' for post in posts]
-    return HttpResponse('Список объявлений')
+    return HttpResponse(responce)
 
 
 def post_detail(request, post_id):
-    responce = f'Детальное представление объявления #{post_id}'
-    return HttpResponse(responce)
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, 'posts/detail.html', {'post': post})
 
 
 def post_edit(request, post_id):

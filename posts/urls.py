@@ -2,6 +2,9 @@ from django.urls import path
 from .views import index, feed, post_detail, post_create, post_edit, post_delete, post_favorite
 
 
+app_name ='posts'
+
+
 urlpatterns = [
     path('', index, name='index'),
     path('feed/', feed, name='feed'),

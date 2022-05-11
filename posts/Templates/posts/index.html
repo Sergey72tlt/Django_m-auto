@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <ul>
+        {% for post in popular_posts %}
+        <li>
+            <a href="{% url 'posts:post-detail' post.id %}">Перейти к объявлению</a>
+            <p>{{ post.author }}</p>
+            <p>{{ post.date_pub }}</p>
+            <img src="{{ post.image.url }}" style="width: 500px; height: 250px;">
+            <p>{{ post.description }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
