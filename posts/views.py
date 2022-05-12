@@ -37,7 +37,9 @@ def post_create(request):
     elif request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             return redirect(reverse('posts:post-detail'), kwargs={'post_id':post.id})
         else:
             return render(request, 'posts/create.html', {'form':form})

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 
 
 def user_post_image_path(instance, filename):
@@ -9,7 +10,8 @@ def user_post_image_path(instance, filename):
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=user_post_image_path)
+    image = models.ImageField(upload_to=user_post_image_path,
+                              validators=[FileExtensionValidator(allowed_extensions=['jpg'])])
     description = models.TextField(max_length=1000, blank=True)
     date_pub = models.DateTimeField(auto_now_add=True)
     date_edit = models.DateTimeField(auto_now=True)

@@ -4,6 +4,24 @@ from .models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
+    max_size_image = 5
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ('image', 'description')
+        labels = {
+            'image': 'Фото',
+            'description': 'Описание'
+        }
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Введите описание'})
+        }
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image', False)
+        if image:
+            if image > self.max_size_image*1024*1024:
+                raise forms.ValidationError(f'Фото долно быть меньше {self.max_size_image} мб')
+            else:
+                return image
+        else:
+            raise forms.ValidationError('Не удалось прочитать файл')
