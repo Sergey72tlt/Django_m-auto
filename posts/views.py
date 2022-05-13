@@ -40,7 +40,7 @@ def post_create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect(reverse('posts:post-detail'), kwargs={'post_id':post.id})
+            return redirect(reverse('posts:post-detail', kwargs={'post_id': post.id}))
         else:
             return render(request, 'posts/create.html', {'form':form})
     return HttpResponse('Создание нового объявления')

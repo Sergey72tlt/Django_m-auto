@@ -19,7 +19,7 @@ class PostForm(forms.ModelForm):
     def clean_image(self):
         image = self.cleaned_data.get('image', False)
         if image:
-            if image > self.max_size_image*1024*1024:
+            if image.size > self.max_size_image*1024*1024:
                 raise forms.ValidationError(f'Фото долно быть меньше {self.max_size_image} мб')
             else:
                 return image
