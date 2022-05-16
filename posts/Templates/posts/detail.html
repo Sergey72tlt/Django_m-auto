@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Пост # {{ post.id }}</title>
@@ -7,9 +7,28 @@
 <body>
     <a href="{% url 'posts:index' %}">На главную</a>
     <p>{{ post.author }}</p>
-    <p>{{ post.date_pub }}</p>
-    <img src="{{ post.image.url }}" style="width: 500px; height: 250px;">
+    <p>{{ post.date_pub|date:'H:i j.F.Y' }}</p>
+    <img src="{{ post.image.url }}" style="width: 500px; height: 300px;">
     <p>{{ post.description }}</p>
     <p>{{ post.favorite_count }}</p>
+
+    {% if comments %}
+        <div>
+            {% for comment in comments %}
+                <p>{{ comment.author }}</p>
+                <p>{{ comment.date_pub }}</p>
+                <p>{{ comment.text }}</p>
+                <hr>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if comment_form %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Комментировать</button>
+        </form>
+    {% endif %}
 </body>
 </html>

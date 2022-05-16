@@ -11,7 +11,7 @@ def user_post_image_path(instance, filename):
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=user_post_image_path,
-                              validators=[FileExtensionValidator(allowed_extensions=['jpg'])])
+                              validators=[FileExtensionValidator(allowed_extensions=['jpeg', 'jpg'])])
     description = models.TextField(max_length=1000, blank=True)
     date_pub = models.DateTimeField(auto_now_add=True)
     date_edit = models.DateTimeField(auto_now=True)
@@ -27,7 +27,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     text = models.CharField(max_length=100)
     date_pub = models.DateTimeField(auto_now_add=True)
     date_edit = models.DateTimeField(auto_now=True)

@@ -5,6 +5,7 @@ from .models import Post, Comment
 
 class PostForm(forms.ModelForm):
     max_size_image = 5
+
     class Meta:
         model = Post
         fields = ('image', 'description')
@@ -25,3 +26,9 @@ class PostForm(forms.ModelForm):
                 return image
         else:
             raise forms.ValidationError('Не удалось прочитать файл')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
