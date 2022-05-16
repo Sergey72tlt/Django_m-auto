@@ -64,7 +64,7 @@ class PostDetail(DetailView):
                                                             'comment_form': form})
 
     def get_comments(self):
-        post = self.object()
+        post = self.object
         comments = post.comments.all().order_by('-date_pub')
         return comments
 
