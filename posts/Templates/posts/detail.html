@@ -11,6 +11,9 @@
     <img src="{{ post.image.url }}" style="width: 500px; height: 300px;">
     <p>{{ post.description }}</p>
     <p>{{ post.favorite_count }}</p>
+    {% if post.author == user %}
+    <a href="{% url 'posts:post-delete' post.id %}">❌</a>
+    {% endif %}
 
     {% if comments %}
         <div>
@@ -26,9 +29,10 @@
     {% if comment_form %}
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ comment_form.as_p }}
             <button type="submit">Комментировать</button>
         </form>
     {% endif %}
+
 </body>
 </html>
