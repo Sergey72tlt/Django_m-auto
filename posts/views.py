@@ -3,8 +3,9 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse
 from django.http import HttpResponse
 from django.db.models import Count
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
@@ -97,9 +98,46 @@ class PostDelete(DeleteView):
         return reverse('posts:post-delete-success')
 
 
-def post_edit(request, post_id):
-    responce = f'Редактирование объявления #{post_id}'
-    return HttpResponse(responce)
+class CommentDelete(DeleteView):
+    model = Comment
+    pk_url_kwarg = 'id'
+
+    def get_success_url(self):
+        comment_id = self.kwargs['id']
+        comment = Comment.objects.get(id=comment_id)
+        return reverse('posts/post-detail', args=(comment.post.id, ))
+
+
+class PostUpdate(UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'posts/update.html'
+    pk_url_kwarg = 'post_id'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if self.request.user != obj.author:
+            raise PermissionDenied('Вы не являяетесь автором данного объявления')
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        image = self.object.image
+        description = self.object.description
+        form = self.get_form()
+
+        if form.is_valid():
+            if image != form.cleaned_data['image'] or description != form.cleaned_data['description']:
+                self.object.favorite.clear()
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
+
+    def get_success_url(self):
+        post_id = self.kwargs['post_id']
+        return reverse('posts/post-detail', args=(post_id, ))
+
+
 
 
 
