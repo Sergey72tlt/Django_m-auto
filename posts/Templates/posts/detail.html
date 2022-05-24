@@ -1,19 +1,22 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>Пост # {{ post.id }}</title>
-</head>
-<body>
-    <a href="{% url 'posts:index' %}">На главную</a>
-    <p>{{ post.author }}</p>
-    <p>{{ post.date_pub|date:'H:i j.F.Y' }}</p>
-    <img src="{{ post.image.url }}" style="width: 500px; height: 300px;">
-    <p>{{ post.description }}</p>
-    <p>{{ post.favorite_count }}</p>
-    {% if post.author == user %}
-    <a href="{% url 'posts:post-delete' post.id %}">❌</a>
-    {% endif %}
+{% extends 'posts/base.html' %}
+
+{% block title %}
+Пост #{{ post.id }}
+{% endblock %}
+
+{% block page_content %}
+<a href="{% url 'posts:index' %}">На главную</a>
+<p>{{ post.author }}</p>
+<p>{{ post.date_pub|date:'H:i j. F. Y' }}</p>
+<img src="{{ post.image.url }}" style="width: 500px; height: 300px;">
+<p>{{ post.description }}</p>
+<p>{{ post.favorite_count }}</p>
+{% if post.author == user %}
+<a href="{% url 'posts:post-edit' post.id %}">✎</a>
+<a href="{% url 'posts:post-delete' post.id %}">❌</a>
+
+{% endif %}
+{% endblock %}
 
     {% if comments %}
         <div>
@@ -22,7 +25,7 @@
                 <p>{{ comment.date_pub }}</p>
                 <p>{{ comment.text }}</p>
                 {% if comment.author == user %}
-                    <form action="{% url 'posts:comment-delete' comment.id %}">
+                    <form action="{% url 'posts:comment-delete' comment.id}" method='post'>
                         {% csrf_token %}
                         <button type="submit">❌</button>
                     </form>
@@ -32,13 +35,10 @@
         </div>
     {% endif %}
 
-    {% if comment_form %}
-        <form method="POST">
-            {% csrf_token %}
-            {{ comment_form.as_p }}
-            <button type="submit">Комментировать</button>
-        </form>
-    {% endif %}
-
-</body>
-</html>
+{% if comment_form %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Комментировать</button>
+    </form>
+{% endif %}

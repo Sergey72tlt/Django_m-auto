@@ -1,6 +1,6 @@
 from django import forms
-
 from .models import Post, Comment
+from .widgets import PictureWidget
 
 
 class PostForm(forms.ModelForm):
@@ -14,7 +14,8 @@ class PostForm(forms.ModelForm):
             'description': 'Описание'
         }
         widgets = {
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Введите описание'})
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Введите описание'}),
+            'image': PictureWidget()
         }
 
     def clean_image(self):
