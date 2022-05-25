@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Profile, UserPhoto
 
 
-admin.site.register(Profile)
+class PhotoInline(admin.TabularInline):
+    model = UserPhoto
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    inlines = [
+        PhotoInline
+    ]

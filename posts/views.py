@@ -49,7 +49,7 @@ class PostDetail(DetailView):
 
         if request.user.is_authenticated:
             context['comment_form'] = self.comment_form
-            return self.render_to_response(context)
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -105,7 +105,7 @@ class CommentDelete(DeleteView):
     def get_success_url(self):
         comment_id = self.kwargs['id']
         comment = Comment.objects.get(id=comment_id)
-        return reverse('posts/post-detail', args=(comment.post.id, ))
+        return reverse('posts:post-detail', args=(comment.post.id, ))
 
 
 class PostUpdate(UpdateView):
@@ -135,7 +135,7 @@ class PostUpdate(UpdateView):
 
     def get_success_url(self):
         post_id = self.kwargs['post_id']
-        return reverse('posts/post-detail', args=(post_id, ))
+        return reverse('posts:post-detail', args=(post_id, ))
 
 
 

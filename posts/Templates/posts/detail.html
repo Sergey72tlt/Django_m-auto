@@ -16,16 +16,14 @@
 <a href="{% url 'posts:post-delete' post.id %}">❌</a>
 
 {% endif %}
-{% endblock %}
-
-    {% if comments %}
+{% if comments %}
         <div>
             {% for comment in comments %}
                 <p>{{ comment.author }}</p>
                 <p>{{ comment.date_pub }}</p>
                 <p>{{ comment.text }}</p>
                 {% if comment.author == user %}
-                    <form action="{% url 'posts:comment-delete' comment.id}" method='post'>
+                    <form action="{% url 'posts:comment-delete' comment.id %}" method='post'>
                         {% csrf_token %}
                         <button type="submit">❌</button>
                     </form>
@@ -42,3 +40,6 @@
         <button type="submit">Комментировать</button>
     </form>
 {% endif %}
+
+{% endblock %}
+

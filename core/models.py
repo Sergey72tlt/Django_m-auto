@@ -16,3 +16,8 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'Profile of {self.user.username}'
+
+
+class UserPhoto(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to='gallery')
