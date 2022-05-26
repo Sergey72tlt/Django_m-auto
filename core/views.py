@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.urls import reverse
 from django.shortcuts import redirect, render
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login
 from .forms import LoginForm, SignupForm, UpdateProfileForm
+from .models import Profile
 
 MAIN_PAGE_URL = '/'
 
@@ -34,6 +35,12 @@ class SignUpView(View):
             return redirect(MAIN_PAGE_URL)
         else:
             return render(request, self.template_name, {'form': form})
+
+
+class ProfileView(DetailView):
+    profile = Profile
+    template_name = 'core/profile.html'
+    pk_url_kwarg = 'profile_id'
 
 
 @login_required

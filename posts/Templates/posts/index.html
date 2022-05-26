@@ -9,7 +9,7 @@
         {% for post in posts %}
         <li>
             <a href="{% url 'posts:post-detail' post.id %}">Перейти к объявлению</a>
-            <p>{{ post.author }}</p>
+            <a href="{% url 'core:profile-detail' post.author.profile.id %}">{{ post.author }}</a>
             <p>{{ post.date_pub }}</p>
             <img src="{{ post.image.url }}" style="width: 500px; height: 250px;">
             <p>{{ post.description }}</p>
