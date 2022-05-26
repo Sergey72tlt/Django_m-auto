@@ -19,10 +19,8 @@ class Profile(models.Model):
 
     def get_subscribers_count(self):
         """Количество пользователей подписавшихся на пользователя"""
-        try:
-            subscribers_count = self.user.subscribers_set.count()
-        except AttributeError:
-            subscribers_count = 0
+        subscribers_count = self.user.subscribers.count()
+        subscribers_count = 0
         return subscribers_count
 
     def get_subscriptions_count(self):
