@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm, UsernameField, UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from posts.widgets import PictureWidget
 from .models import Profile
 
 
@@ -46,6 +47,9 @@ class UpdateProfileForm(forms.ModelForm):
         labels = {
             'about': 'Обо мне',
             'avatar': 'Фото профиля'
+        }
+        widgets = {
+            'avatar': PictureWidget()
         }
 
     def clean_avatar(self):
