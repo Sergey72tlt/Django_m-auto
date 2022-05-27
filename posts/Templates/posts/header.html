@@ -1,4 +1,4 @@
-<header>
+<header class="header">
     <a href="{% url 'posts:index' %}">Главная</a>
     {% if user.is_authenticated %}
         <p>Привет, <a href="{% url 'core:profile-detail' user.profile.id %}">{{user.username }}</a></p>
