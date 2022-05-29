@@ -8,11 +8,12 @@
 <form method="post" class="form-1">
     {% csrf_token %}
     <p class="field">
-        <input type="text" name="login" placeholder="Логин">
+        <input type="text" name="username" autofocus="" placeholder="Логин" autocapitalize="none"
+                   autocomplete="username" maxlength="150" required="" id="id_username">
         <i class="icon-user icon-large"></i>
     </p>
         <p class="field">
-        <input type="password" name="password" placeholder="Пароль">
+        <input type="password" name="password" placeholder="Пароль" required="" id="id_password">
         <i class="icon-lock icon-large"></i>
     </p>
     <p class="submit">
