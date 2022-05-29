@@ -30,7 +30,7 @@ class FeedView(IndexView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        friends_list = self.request.user.profile.friends.all()
+        friends_list = self.request.user.profile.subscriptions.all()
         queryset = Post.objects.filter(author__in=friends_list)
         return queryset
 

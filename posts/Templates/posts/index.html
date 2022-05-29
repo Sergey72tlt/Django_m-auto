@@ -1,24 +1,26 @@
 {% extends 'posts/base.html' %}
 
 {% block title %}
- Главная страница
+Главная страница
 {% endblock %}
 
 {% block page_content %}
-    <ul>
-        {% for post in posts %}
-        <li>
-            <a href="{% url 'posts:post-detail' post.id %}">Перейти к объявлению</a>
-            <a href="{% url 'core:profile-detail' post.author.profile.id %}">{{ post.author }}</a>
-            <p>{{ post.date_pub }}</p>
-            <img src="{{ post.image.url }}" style="width: 500px; height: 250px;">
-            <p>{{ post.description }}</p>
-            <p> favorite: {{ post.favorite_count }}</p>
-            <form method="posts" action="{% url 'posts:post-favorite' post.id %}">
-                {% csrf_token %}
-                <button type="submit">♥</button>
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
+
+{% for post in posts %}
+<div class="card" style="width: 18rem;">
+    <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">{{ post.description }}</h5>
+        <a href="{% url 'core:profile-detail' post.author.profile.id %}">Автор: {{ post.author }}</a>
+        <p class="card-text">Опубликовано: {{ post.date_pub }}</p>
+        <a href="{% url 'posts:post-detail' post.id %}" class="btn btn-primary">Перейти к объявлению</a>
+        <form method="posts" action="{% url 'posts:post-favorite' post.id %}">
+            {% csrf_token %}
+            <button type="submit">♥</button>
+        </form>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}}
+
